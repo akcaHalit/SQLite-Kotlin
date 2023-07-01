@@ -14,16 +14,21 @@ class MainActivity : AppCompatActivity() {
 
             val myDataBase = this.openOrCreateDatabase("Musicians",Context.MODE_PRIVATE,null)
 
-            myDataBase.execSQL("CREATE TABLE IF NOT EXISTS musicians(name VARCHAR, age INT)")
+            myDataBase.execSQL("CREATE TABLE IF NOT EXISTS musicians(id INTEGER PRIMARY KEY, name VARCHAR, age INT)")
 
-            myDataBase.execSQL("INSERT INTO musicians (name, age) VALUES('Jamie',50)")
+            //myDataBase.execSQL("INSERT INTO musicians (name, age) VALUES('Jamie',50)")
+            //myDataBase.execSQL("INSERT INTO musicians (name, age) VALUES('Lars',65)")
+            //myDataBase.execSQL("INSERT INTO musicians (name, age) VALUES('Kirk',35)")
 
-            val cursor = myDataBase.rawQuery("SELECT * FROM musicians",null)
+            //val cursor = myDataBase.rawQuery("SELECT * FROM musicians WHERE id = 3 ",null)
+            val cursor = myDataBase.rawQuery("SELECT * FROM musicians WHERE name LIKE '%s' ",null)
 
             val nameIx = cursor.getColumnIndex("name")
             val ageIx = cursor.getColumnIndex("age")
+            val idIx = cursor.getColumnIndex("id")
 
             while (cursor.moveToNext()){
+                println("Id: ${cursor.getString(idIx)}")
                 println("Name: ${cursor.getString(nameIx)}")
                 println("Age: ${cursor.getString(ageIx)}")
             }
